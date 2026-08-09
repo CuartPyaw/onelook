@@ -90,10 +90,6 @@
         <button class="tool-btn" title="全屏" @click="toggleFullscreen">
           <Maximize :size="18" />
         </button>
-        <span v-if="!isOnline" class="offline-badge" title="离线模式：应用已缓存，可正常使用">
-          <WifiOff :size="14" />
-          离线
-        </span>
         <button
           class="tool-btn"
           :class="{ active: mapStore.zenMode }"
@@ -189,9 +185,13 @@
           <Keyboard :size="14" />
         </button>
       </span>
-      <span class="status-item status-saved">
+      <span v-if="isOnline" class="status-item status-saved">
         <Check :size="14" />
         就绪
+      </span>
+      <span v-else class="status-item offline-badge" title="离线模式：应用已缓存，可正常使用">
+        <WifiOff :size="14" />
+        离线
       </span>
     </footer>
     <Transition name="zen-float">
