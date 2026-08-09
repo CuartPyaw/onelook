@@ -90,6 +90,10 @@
         <button class="tool-btn" title="全屏" @click="toggleFullscreen">
           <Maximize :size="18" />
         </button>
+        <span v-if="!isOnline" class="offline-badge" title="离线模式：应用已缓存，可正常使用">
+          <WifiOff :size="14" />
+          离线
+        </span>
         <button
           class="tool-btn"
           :class="{ active: mapStore.zenMode }"
@@ -252,9 +256,11 @@ import {
   Presentation,
   Eye,
   Layers,
-  GitBranch
+  GitBranch,
+  WifiOff
 } from 'lucide-vue-next'
 import { useMapStore } from '@/stores/mapStore'
+import { useOnlineStatus } from '@/composables/useOnlineStatus'
 import { exportService, importService } from '@/services/export'
 import MindMapCanvas from '@/components/editor/MindMapCanvas.vue'
 import NodeProperties from '@/components/editor/NodeProperties.vue'
@@ -268,6 +274,7 @@ import TabBar from '@/components/editor/TabBar.vue'
 import PitchMode from '@/components/editor/PitchMode.vue'
 
 const mapStore = useMapStore()
+const { isOnline } = useOnlineStatus()
 
 const searchDialogRef = ref<InstanceType<typeof SearchDialog> | null>(null)
 const commandPaletteRef = ref<InstanceType<typeof CommandPalette> | null>(null)
@@ -984,6 +991,18 @@ onUnmounted(() => {
 .status-btn:hover {
   background: var(--color-bg-secondary);
   color: var(--color-text);
+}
+
+.offline-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #b45309;
+  background: rgba(245, 158, 11, 0.12);
 }
 
 .toast {
