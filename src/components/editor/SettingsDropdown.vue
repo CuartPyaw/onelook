@@ -57,6 +57,13 @@
         />
       </label>
     </div>
+
+    <div class="settings-section" v-if="canInstall">
+      <button class="about-btn" @click="handleInstall">
+        <Download :size="16" />
+        <span>安装到桌面</span>
+      </button>
+    </div>
     
     <div class="settings-divider"></div>
     
@@ -103,8 +110,9 @@
 
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
-import { GitBranch, Network, Fish, Users, Info, Github, BookOpen, X } from 'lucide-vue-next'
+import { GitBranch, Network, Fish, Users, Info, Github, BookOpen, X, Download } from 'lucide-vue-next'
 import { useMapStore } from '@/stores/mapStore'
+import { usePwaInstall } from '@/composables/usePwaInstall'
 import type { LayoutType, ThemeType, ConnectionStyle } from '@/types'
 
 defineProps<{
@@ -117,6 +125,7 @@ const emit = defineEmits<{
 
 const mapStore = useMapStore()
 const showAbout = ref(false)
+const { canInstall, install } = usePwaInstall()
 
 const themes = [
   { value: 'light' as ThemeType, label: '亮色', color: '#ffffff' },
@@ -161,6 +170,12 @@ const rainbowBranch = computed(() => mapStore.document.rainbowBranch ?? false)
 function toggleRainbowBranch() {
   mapStore.document.rainbowBranch = !mapStore.document.rainbowBranch
   mapStore.document.updatedAt = Date.now()
+}
+
+async function handleInstall() {
+  if (await install()) {
+    emit('close')
+  }
 }
 
 // 初始化主题
