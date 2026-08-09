@@ -1,6 +1,6 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const isOnline = ref(navigator.onLine)
+const isOnline = ref<boolean | null>(null)
 
 let probeTimer: number | null = null
 let probing = false
@@ -40,6 +40,9 @@ function scheduleNextProbe() {
     refreshStatus()
   }, 5000)
 }
+
+// 首次探测在应用挂载前就开始，避免首帧展示未经确认的状态
+void refreshStatus()
 
 export function useOnlineStatus() {
   const handleOnline = () => {
