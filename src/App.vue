@@ -185,11 +185,11 @@
           <Keyboard :size="14" />
         </button>
       </span>
-      <span v-if="isOnline" class="status-item status-saved">
+      <span v-if="isOnline === true" class="status-item status-saved">
         <Check :size="14" />
         就绪
       </span>
-      <span v-else class="status-item offline-badge" title="离线模式：应用已缓存，可正常使用">
+      <span v-else-if="isOnline === false" class="status-item offline-badge" title="离线模式：应用已缓存，可正常使用">
         <WifiOff :size="14" />
         离线
       </span>
