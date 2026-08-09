@@ -918,7 +918,15 @@ onUnmounted(() => {
 }
 
 .status-saved {
-  color: #10b981;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  color: #047857;
+  background: rgba(16, 185, 129, 0.12);
 }
 
 .export-menu {
